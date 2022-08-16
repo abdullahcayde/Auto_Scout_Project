@@ -1,0 +1,72 @@
+#https://suhas-maddali007.medium.com/predicting-car-prices-using-machine-learning-and-data-science-52ed44abab1b
+
+# ------------------------------ Time Series --------------------------------
+# Read csv parse_dates
+d_parser = lambda x : pd.datetime.strptime(x, '%m/%Y')
+df = pd.read_csv('/data.csv', parse_dates=['production_date'], date_parser=d_parser)
+df.head()
+
+# to_datetime
+L05 = ['registration', 'first_registration', 'general_inspection']
+for i in L05:
+    df_dates[i] = pd.to_datetime(df_dates[i], format= '%m/%Y', errors= 'coerce')
+
+# Column Reg, first index , find day name 
+df_dates.loc[1, 'registration'].day_name()
+    
+# Make new column as a DAY (Friday, .....)
+df_dates['new_column'] = df_dates['registration'].dt.day_name()
+
+# Max and Min Dates
+df['Date'].min()
+df['Date'].max()
+
+# TimeDelta
+df['Date'].max() - df['Date'].min()
+
+# Date Filter
+filt = (df['date'] >= '2019') & (df['date'] < '2022')
+df.loc[filt]
+
+filt = (df['date'] >= pd.to_datetime('2019-01-01')) & (df['date'] < pd.to_datetime('2022-03-01')
+df.loc(filt)
+
+# set as index
+df.set_index('date', inplace= True)
+
+# after 
+df['2019']
+df['2020-01' : '2020-02']
+df['2020-01' : '2020-02']['column'].mean()
+---------------------------------
+# resample 
+#index date yapildi
+highs = df['column'].resample('D').max()
+                                                       
+# Matplotlib install
+%matplotlib inline
+highs.plot();
+---------------------------------                                                       
+
+
+---------- general
+df.dtypes
+                                                       
+                                                       
+------------------------- Regex 
+
+# Column Reg, first index , find day name 
+df_dates.loc[1, 'registration'].day_name()
+
+# split expand
+L04 = ['power_kw', 'power_hp']
+df[L04] = df.power.str.split('kW', expand= True) 
+
+# replace
+df['power_hp'] = df['power_hp'].str.replace('hp', '').replace('None', np.NaN)
+
+# regex clean unwanted Chracters
+for column in clmns:
+    df[column] = df[column].str.replace(r'\W', '')
+    
+------------------------
